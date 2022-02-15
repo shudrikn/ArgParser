@@ -4,7 +4,9 @@ using namespace std;
 
 class TestType
 {
+    
 public:
+    
     int k;
     explicit TestType(int i)
     {
@@ -37,6 +39,24 @@ void CommandLineArgument<TestType>::SetValue(const std::string& arg_value)
 }
 
 
+class TokenClassExample
+{
+public:
+    class CommandLineArgumentsForClass
+    {
+    public:
+        CommandLineArgumentsForClass()
+        {
+            ArgsParser& parser = ArgsParser::GetInstance();
+            parser.AddArgument(CommandLineArgument<bool>("f", "-f", false, "boolean from token class arg"));
+        }
+    };
+
+    static CommandLineArgumentsForClass args;
+};
+
+TokenClassExample::CommandLineArgumentsForClass args;
+
 
 
 int main(int argc, char* argv[]) {
@@ -49,6 +69,8 @@ int main(int argc, char* argv[]) {
 
     parser.PrintHelp();
     parser.Parse(argc, argv);
+
+    TokenClassExample token;
 
     cout << "b: " << *parser.GetValue<bool>("b") << endl;
     cout << "i: " << *parser.GetValue<int>("i") << endl;
